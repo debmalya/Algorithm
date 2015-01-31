@@ -27,6 +27,9 @@ public class UF {
 	public UF(int N) {
 		count = N;
 		id = new int[N];
+		for (int i = 0; i < N; i++) {
+			id[i] = i;
+		}
 	}
 
 	/**
@@ -47,7 +50,7 @@ public class UF {
 	 * @return if p is there otherwise throw exception
 	 */
 	public int find(int p) {
-		if (p < count) {
+		if (p < id.length) {
 			return id[p];
 		}
 		throw new RuntimeException("No element at index " + p);
@@ -59,13 +62,17 @@ public class UF {
 	 * @param q
 	 */
 	public void union(int p, int q) {
+		int pID = find(p);
+		int qID = find(q);
+		if (pID == qID) return;
 		id[p] = id[q];
-		for (int i = 0; i < count; i++) {
-			if (id[i] == p) {
-				id[i] = q;
-				count--;
-			}
+		
+		for (int i = 0; i < id.length; i++) {
+			if (id[i] == pID) {
+				id[i] = qID;
+			}			
 		}
+		count--;
 	}
 
 	public static void main(String[] args) {
