@@ -1,5 +1,9 @@
 package union.find;
 
+import java.util.Scanner;
+
+
+
 /**
  * 
  * @author debmalyajash Union Find
@@ -8,8 +12,12 @@ public class UF {
 	// element container
 	private int[] id;
 
-	// number of element
+	// number of components.
 	private int count;
+
+	public int getCount() {
+		return count;
+	}
 
 	/**
 	 * 
@@ -44,7 +52,7 @@ public class UF {
 		}
 		throw new RuntimeException("No element at index " + p);
 	}
-	
+
 	/**
 	 * 
 	 * @param p
@@ -55,8 +63,27 @@ public class UF {
 		for (int i = 0; i < count; i++) {
 			if (id[i] == p) {
 				id[i] = q;
+				count--;
 			}
 		}
 	}
 
+	public static void main(String[] args) {
+		try (Scanner scanner = new Scanner(System.in)) {
+			int N = scanner.nextInt();
+			UF uf = new UF(N);
+			while (scanner.hasNextInt()) {
+				int p = scanner.nextInt();
+				int q = scanner.nextInt();
+				if (uf.connected(p, q))
+					continue;
+				uf.union(p, q);
+				System.out.println(p + " " + q);
+			}
+			System.out.println(uf.getCount() + " components");
+		}
+
+		
+		
+	}
 }
